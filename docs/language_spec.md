@@ -202,3 +202,79 @@ task handle_multiple_tasks:
         execute fetch_and_store
     log "All tasks completed in parallel."
 ```
+
+---
+
+### **Formal Syntax Rules**
+
+```ebnf
+<program>       ::= { <task-definition> } .
+
+<task-definition> ::= "task" <identifier> ":" <block> .
+
+<block>         ::= { <statement> } .
+
+<statement>     ::= <command> | <conditional> | <loop> | <assignment> | <execution> | <log> .
+
+<command>       ::= "read" <filepath>
+                  | "write" <expression> "to" <filepath>
+                  | "delete" <filepath>
+                  | "move" <filepath> "to" <destination>
+                  | "compress" <files> ">" <archive>
+                  | "extract" <archive>
+                  | "fetch" <url>
+                  | "upload" <filepath> "to" <destination>
+                  | "download" <filepath> "from" <url> .
+
+<conditional>   ::= "if" <condition> ":" <block> [ "else:" <block> ] .
+
+<loop>          ::= "loop" <block> "until" <condition> .
+
+<assignment>    ::= <identifier> "=" <expression> .
+
+<execution>     ::= "execute" <task-call>
+                  | "parallel:" <block>
+                  | "wait" <task-call>
+                  | "schedule" <task-call> "at" <time> .
+
+<task-call>     ::= <identifier> [ "(" <arguments> ")" ] .
+
+<log>           ::= "log" <string> .
+
+<expression>    ::= <literal>
+                  | <identifier>
+                  | <function-call>
+                  | <arithmetic-expression> .
+
+<function-call> ::= <identifier> "(" <arguments> ")" .
+
+<condition>     ::= <expression> <comparison-operator> <expression> .
+
+<comparison-operator> ::= "==" | "!=" | ">" | ">=" | "<" | "<=" .
+
+<arithmetic-expression> ::= <expression> <arithmetic-operator> <expression> .
+
+<arithmetic-operator> ::= "+" | "-" | "*" | "/" .
+
+<arguments>     ::= <expression> { "," <expression> } .
+
+<literal>       ::= <string> | <number> | <boolean> .
+
+<identifier>    ::= <letter> { <letter> | <digit> | "_" } .
+
+<filepath>      ::= <string> .
+
+<files>         ::= <string> { "," <string> } .
+
+<archive>       ::= <string> .
+
+<url>           ::= <string> .
+
+<string>        ::= "\"" { <character> } "\"" .
+
+<number>        ::= [ "-" ] <digit> { <digit> } .
+
+<boolean>       ::= "true" | "false" .
+
+<time>          ::= "\"" <ISO-8601 timestamp> "\"" .
+```
