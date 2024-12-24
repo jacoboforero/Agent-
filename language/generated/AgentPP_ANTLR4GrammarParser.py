@@ -316,6 +316,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitProgram" ):
                 listener.exitProgram(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitProgram" ):
+                return visitor.visitProgram(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -379,6 +385,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitTaskDefinition" ):
                 listener.exitTaskDefinition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTaskDefinition" ):
+                return visitor.visitTaskDefinition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -429,6 +441,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitBlock" ):
                 listener.exitBlock(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBlock" ):
+                return visitor.visitBlock(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -500,6 +518,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStatement" ):
                 listener.exitStatement(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStatement" ):
+                return visitor.visitStatement(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -732,6 +756,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitCommand" ):
                 listener.exitCommand(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCommand" ):
+                return visitor.visitCommand(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1013,6 +1043,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitConditional" ):
                 listener.exitConditional(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitConditional" ):
+                return visitor.visitConditional(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1083,6 +1119,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitLoopStmt" ):
                 listener.exitLoopStmt(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLoopStmt" ):
+                return visitor.visitLoopStmt(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1137,6 +1179,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitAssignment" ):
                 listener.exitAssignment(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitAssignment" ):
+                return visitor.visitAssignment(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1209,6 +1257,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExecution" ):
                 listener.exitExecution(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExecution" ):
+                return visitor.visitExecution(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1292,6 +1346,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitLogStmt" ):
                 listener.exitLogStmt(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLogStmt" ):
+                return visitor.visitLogStmt(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1345,6 +1405,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitExpression" ):
                 listener.exitExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitExpression" ):
+                return visitor.visitExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1408,6 +1474,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitPrimaryExpression" ):
                 listener.exitPrimaryExpression(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitPrimaryExpression" ):
+                return visitor.visitPrimaryExpression(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1480,6 +1552,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitFunctionCall" ):
                 listener.exitFunctionCall(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunctionCall" ):
+                return visitor.visitFunctionCall(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1542,6 +1620,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitCondition" ):
                 listener.exitCondition(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitCondition" ):
+                return visitor.visitCondition(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1596,6 +1680,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitArguments" ):
                 listener.exitArguments(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArguments" ):
+                return visitor.visitArguments(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1660,6 +1750,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitLiteral" ):
                 listener.exitLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitLiteral" ):
+                return visitor.visitLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1719,6 +1815,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitComparisonOperator" ):
                 listener.exitComparisonOperator(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitComparisonOperator" ):
+                return visitor.visitComparisonOperator(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1774,6 +1876,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitArithmeticOperator" ):
                 listener.exitArithmeticOperator(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArithmeticOperator" ):
+                return visitor.visitArithmeticOperator(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1831,6 +1939,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitIdentifier" ):
                 listener.exitIdentifier(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitIdentifier" ):
+                return visitor.visitIdentifier(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -1886,6 +2000,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitStringLiteral" ):
                 listener.exitStringLiteral(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitStringLiteral" ):
+                return visitor.visitStringLiteral(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -1952,6 +2072,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitNumberLiteral" ):
                 listener.exitNumberLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitNumberLiteral" ):
+                return visitor.visitNumberLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2010,6 +2136,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitBooleanLiteral" ):
                 listener.exitBooleanLiteral(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitBooleanLiteral" ):
+                return visitor.visitBooleanLiteral(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2058,6 +2190,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitFilepath" ):
                 listener.exitFilepath(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFilepath" ):
+                return visitor.visitFilepath(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2100,6 +2238,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitDestination" ):
                 listener.exitDestination(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDestination" ):
+                return visitor.visitDestination(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2141,6 +2285,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitDirectory" ):
                 listener.exitDirectory(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitDirectory" ):
+                return visitor.visitDirectory(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2192,6 +2342,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFiles" ):
                 listener.exitFiles(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFiles" ):
+                return visitor.visitFiles(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2248,6 +2404,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitArchive" ):
                 listener.exitArchive(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitArchive" ):
+                return visitor.visitArchive(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2289,6 +2451,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitUrl" ):
                 listener.exitUrl(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitUrl" ):
+                return visitor.visitUrl(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2332,6 +2500,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitData" ):
                 listener.exitData(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitData" ):
+                return visitor.visitData(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2373,6 +2547,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitModel" ):
                 listener.exitModel(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitModel" ):
+                return visitor.visitModel(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2416,6 +2596,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitRecipient" ):
                 listener.exitRecipient(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitRecipient" ):
+                return visitor.visitRecipient(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2457,6 +2643,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitMessage" ):
                 listener.exitMessage(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitMessage" ):
+                return visitor.visitMessage(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2500,6 +2692,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitSender" ):
                 listener.exitSender(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitSender" ):
+                return visitor.visitSender(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2542,6 +2740,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitKey" ):
                 listener.exitKey(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitKey" ):
+                return visitor.visitKey(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2583,6 +2787,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitFunction" ):
                 listener.exitFunction(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitFunction" ):
+                return visitor.visitFunction(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2635,6 +2845,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitTaskCall" ):
                 listener.exitTaskCall(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTaskCall" ):
+                return visitor.visitTaskCall(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
@@ -2697,6 +2913,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
             if hasattr( listener, "exitTimerule" ):
                 listener.exitTimerule(self)
 
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitTimerule" ):
+                return visitor.visitTimerule(self)
+            else:
+                return visitor.visitChildren(self)
+
 
 
 
@@ -2738,6 +2960,12 @@ class AgentPP_ANTLR4GrammarParser ( Parser ):
         def exitRule(self, listener:ParseTreeListener):
             if hasattr( listener, "exitInput" ):
                 listener.exitInput(self)
+
+        def accept(self, visitor:ParseTreeVisitor):
+            if hasattr( visitor, "visitInput" ):
+                return visitor.visitInput(self)
+            else:
+                return visitor.visitChildren(self)
 
 
 
