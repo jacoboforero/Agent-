@@ -53,10 +53,10 @@ For interacting with the operating system safely:
 
 Built-in commands for common data-processing tasks:
 
-- `filter <data> where <condition>`: Extract elements matching a condition.
-- `transform <data> with <function>`: Apply transformations to data.
+- `filter < (Work in Progress, not implemented)`data> where <condition>`: Extract elements matching a condition.
+- `transform < (Work in Progress, not implemented)`data> with <function>`: Apply transformations to data.
 - `sort <data> by <key>`: Sort data by specified criteria.
-- `aggregate <data> using <function>`: Aggregate data (e.g., sum, average).
+- `aggregate < (Work in Progress, not implemented)`data> using <function>`: Aggregate data (e.g., sum, average).
 
 ---
 
@@ -75,10 +75,10 @@ For enabling agentic behavior and decision-making:
 
 For AI-driven automation tasks:
 
-- `analyze <data> with <model>`: Run AI analysis on data.
-- `summarize <data>`: Generate a summary from text or structured data.
-- `predict <input> using <model>`: Perform predictions with an AI model.
-- `train <model> with <data>`: Train an AI model (sandboxed to prevent unintended resource use).
+- `analyze < (Work in Progress, not implemented)`data> with <model>`: Run AI analysis on data.
+- `summarize < (Work in Progress, not implemented)`data>`: Generate a summary from text or structured data.
+- `predict < (Work in Progress, not implemented)`input> using <model>`: Perform predictions with an AI model.
+- `train < (Work in Progress, not implemented)`model> with <data>`: Train an AI model (sandboxed to prevent unintended resource use).
 
 ---
 
