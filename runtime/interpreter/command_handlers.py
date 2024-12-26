@@ -18,6 +18,10 @@ class CommandHandlers:
             "log": self.log_message,
             "fetch": self.fetch_url,
             "execute": self.execute_task,
+            "send": self.send_data,
+            "query_api": self.query_api,
+            "upload": self.upload_file,
+            "download": self.download_file,
             # Add more commands here as needed
         }
 
@@ -36,6 +40,64 @@ class CommandHandlers:
                 raise ValueError(f"Unknown command: {command}")
         except Exception as e:
             self.runtime_env.log_event(f"Error handling command '{command_text}': {e}")
+
+    def send_data(self, args: str):
+        """
+        Sends data to a URL.
+        """
+        try:
+            data, url = args.split(" to ", 1)
+            response = requests.post(url.strip(), data=data)
+            if response.status_code == 200:
+                self.runtime_env.log_event(f"Data sent to {url} successfully.")
+            else:
+                raise ConnectionError(f"Failed to send data to {url}: {response.status_code}")
+        except ValueError:
+            raise ValueError("Invalid syntax for send command. Use: send <data> to <url>")
+
+    def query_api(self, args: str):
+        """
+        Queries an API endpoint and logs the response.
+        """
+        url = args.strip()
+        response = requests.get(url)
+        if response.status_code == 200:
+            self.runtime_env.variables["last_query"] = response.json()
+            self.runtime_env.log_event(f"API query to {url} completed successfully.")
+        else:
+            raise ConnectionError(f"Failed to query API at {url}: {response.status_code}")
+
+    def upload_file(self, args: str):
+        """
+        Uploads a file to a destination URL.
+        """
+        try:
+            file_path, destination = args.split(" to ", 1)
+            with open(file_path.strip(), "rb") as file:
+                response = requests.post(destination.strip(), files={"file": file})
+                if response.status_code == 200:
+                    self.runtime_env.log_event(f"File {file_path} uploaded to {destination} successfully.")
+                else:
+                    raise ConnectionError(f"Failed to upload file to {destination}: {response.status_code}")
+        except ValueError:
+            raise ValueError("Invalid syntax for upload command. Use: upload <file> to <destination>")
+
+    def download_file(self, args: str):
+        """
+        Downloads a file from a URL to a specified local path.
+        """
+        try:
+            url, file_path = args.split(" to ", 1)
+            response = requests.get(url.strip(), stream=True)
+            if response.status_code == 200:
+                with open(file_path.strip(), "wb") as file:
+                    for chunk in response.iter_content(chunk_size=8192):
+                        file.write(chunk)
+                self.runtime_env.log_event(f"File downloaded from {url} to {file_path} successfully.")
+            else:
+                raise ConnectionError(f"Failed to download file from {url}: {response.status_code}")
+        except ValueError:
+            raise ValueError("Invalid syntax for download command. Use: download <url> to <file>")
 
     def read_file(self, args: str):
         """
@@ -142,6 +204,5 @@ class CommandHandlers:
                     self.runtime_env.log_event(f"Command failed: {task_name} - Error: {e.stderr.decode('utf-8')}")
             else:
                 raise PermissionError("Shell commands are disabled by safety settings.")
-    
 
 # Additional commands can be implemented similarly
