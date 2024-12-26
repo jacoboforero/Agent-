@@ -3,6 +3,7 @@
 
 import os
 import requests
+import subprocess
 from runtime_environment import RuntimeEnvironment
 
 class CommandHandlers:
@@ -127,8 +128,20 @@ class CommandHandlers:
             for command in task:
                 self.handle(command)
         else:
-            # Treat as a system command
-            os.system(task_name)
-            self.runtime_env.log_event(f"Executed system command: {task_name}")
+            # Treat as a system command if explicitly allowed
+            if self.runtime_env.safety_settings.get("allow_shell", False):
+                try:
+                    # Use subprocess for safer execution
+                    result = subprocess.run(
+                        task_name.split(),  # Split command into arguments
+                        check=True,         # Raise exception if command fails
+                        capture_output=True # Capture stdout and stderr
+                    )
+                    self.runtime_env.log_event(f"Executed system command: {task_name} - Output: {result.stdout.decode('utf-8')}")
+                except subprocess.CalledProcessError as e:
+                    self.runtime_env.log_event(f"Command failed: {task_name} - Error: {e.stderr.decode('utf-8')}")
+            else:
+                raise PermissionError("Shell commands are disabled by safety settings.")
+    
 
 # Additional commands can be implemented similarly
