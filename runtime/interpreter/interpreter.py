@@ -11,13 +11,12 @@ from runtime.interpreter.runtime_environment import RuntimeEnvironment
 from runtime.interpreter.command_handlers import CommandHandlers
 from runtime.interpreter.task_manager import TaskManager
 
-
 class AgentPPInterpreter(AgentPP_ANTLR4GrammarVisitor):
     def __init__(self):
         super().__init__()
         self.runtime_env = RuntimeEnvironment()
         self.command_handlers = CommandHandlers(self.runtime_env)
-        self.task_manager = TaskManager()
+        self.task_manager = TaskManager(self.runtime_env)
 
     def interpret_file(self, file_path: str):
         """
@@ -115,21 +114,21 @@ class AgentPPInterpreter(AgentPP_ANTLR4GrammarVisitor):
 
     def visitExecution(self, ctx):
         """
-        Handles task execution, parallel blocks, and scheduling.
+        Handles task execution, parallel blocks, scheduling, and waiting.
         """
         if ctx.EXECUTE():
-            task_call = ctx.taskCall()
-            self.task_manager.execute_task(task_call)
+            task_name = ctx.taskCall().getText()
+            self.task_manager.run_task(task_name)
         elif ctx.PARALLEL():
-            block = ctx.block()
-            self.task_manager.run_parallel_tasks(block.statement())
+            tasks = [stmt.getText() for stmt in ctx.block().statement()]
+            self.task_manager.run_parallel_tasks(tasks)
         elif ctx.WAIT():
-            task_call = ctx.taskCall()
-            self.task_manager.wait_for_task(task_call)
+            task_name = ctx.taskCall().getText()
+            self.task_manager.wait_for_task(task_name)
         elif ctx.SCHEDULE():
-            task_call = ctx.taskCall()
-            time_rule = ctx.timerule().getText()
-            self.task_manager.schedule_task(task_call, time_rule)
+            task_name = ctx.taskCall().getText()
+            run_at = float(ctx.timerule().getText())
+            self.task_manager.schedule_task(task_name, run_at)
 
     def visitLogStmt(self, ctx):
         """
