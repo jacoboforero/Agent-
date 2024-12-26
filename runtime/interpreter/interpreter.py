@@ -9,7 +9,6 @@ from language.generated.AgentPP_ANTLR4GrammarVisitor import AgentPP_ANTLR4Gramma
 
 from runtime.interpreter.runtime_environment import RuntimeEnvironment
 from runtime.interpreter.command_handlers import CommandHandlers
-from runtime.interpreter.control_flow import ControlFlow
 from runtime.interpreter.task_manager import TaskManager
 
 
@@ -18,7 +17,6 @@ class AgentPPInterpreter(AgentPP_ANTLR4GrammarVisitor):
         super().__init__()
         self.runtime_env = RuntimeEnvironment()
         self.command_handlers = CommandHandlers(self.runtime_env)
-        self.control_flow = ControlFlow()
         self.task_manager = TaskManager()
 
     def interpret_file(self, file_path: str):
@@ -92,7 +90,7 @@ class AgentPPInterpreter(AgentPP_ANTLR4GrammarVisitor):
         true_block = ctx.block(0)
         false_block = ctx.block(1) if ctx.ELSE() else None
 
-        if self.control_flow.evaluate_condition(condition):
+        if eval(condition):  # Replace this with a safer evaluation approach as needed
             self.visit(true_block)
         elif false_block:
             self.visit(false_block)
@@ -104,7 +102,7 @@ class AgentPPInterpreter(AgentPP_ANTLR4GrammarVisitor):
         condition = ctx.condition().getText()
         loop_block = ctx.block()
 
-        while self.control_flow.evaluate_condition(condition):
+        while eval(condition):  # Replace this with a safer evaluation approach as needed
             self.visit(loop_block)
 
     def visitAssignment(self, ctx):
@@ -147,7 +145,22 @@ class AgentPPInterpreter(AgentPP_ANTLR4GrammarVisitor):
         left = self.visit(ctx.expression(0))
         right = self.visit(ctx.expression(1))
         operator = ctx.comparisonOperator().getText()
-        return self.control_flow.evaluate_condition(f"{left} {operator} {right}")
+
+        # Perform the comparison directly
+        if operator == "==":
+            return left == right
+        elif operator == "!=":
+            return left != right
+        elif operator == ">":
+            return left > right
+        elif operator == ">=":
+            return left >= right
+        elif operator == "<":
+            return left < right
+        elif operator == "<=":
+            return left <= right
+        else:
+            raise ValueError(f"Unknown comparison operator: {operator}")
 
     def visitFunctionCall(self, ctx):
         """
