@@ -4,6 +4,7 @@
 import os
 import requests
 import subprocess
+from datetime import datetime
 from runtime_environment import RuntimeEnvironment
 
 class CommandHandlers:
@@ -22,6 +23,12 @@ class CommandHandlers:
             "query_api": self.query_api,
             "upload": self.upload_file,
             "download": self.download_file,
+            "alert": self.alert_message,
+            "current_time": self.get_current_time,
+            "filter": self.filter_data,
+            "transform": self.transform_data,
+            "sort": self.sort_data,
+            "aggregate": self.aggregate_data,
             # Add more commands here as needed
         }
 
@@ -41,63 +48,48 @@ class CommandHandlers:
         except Exception as e:
             self.runtime_env.log_event(f"Error handling command '{command_text}': {e}")
 
-    def send_data(self, args: str):
+    def alert_message(self, args: str):
         """
-        Sends data to a URL.
+        Sends an alert message.
         """
-        try:
-            data, url = args.split(" to ", 1)
-            response = requests.post(url.strip(), data=data)
-            if response.status_code == 200:
-                self.runtime_env.log_event(f"Data sent to {url} successfully.")
-            else:
-                raise ConnectionError(f"Failed to send data to {url}: {response.status_code}")
-        except ValueError:
-            raise ValueError("Invalid syntax for send command. Use: send <data> to <url>")
+        message = args.strip()
+        print(f"[ALERT] {message}")
+        self.runtime_env.log_event(f"Alert sent: {message}")
 
-    def query_api(self, args: str):
+    def get_current_time(self, args: str):
         """
-        Queries an API endpoint and logs the response.
+        Logs the current system time in ISO format.
         """
-        url = args.strip()
-        response = requests.get(url)
-        if response.status_code == 200:
-            self.runtime_env.variables["last_query"] = response.json()
-            self.runtime_env.log_event(f"API query to {url} completed successfully.")
-        else:
-            raise ConnectionError(f"Failed to query API at {url}: {response.status_code}")
+        current_time = datetime.now().isoformat()
+        self.runtime_env.log_event(f"Current time: {current_time}")
 
-    def upload_file(self, args: str):
+    def filter_data(self, args: str):
         """
-        Uploads a file to a destination URL.
+        Filters data based on a condition (stubbed for now).
         """
-        try:
-            file_path, destination = args.split(" to ", 1)
-            with open(file_path.strip(), "rb") as file:
-                response = requests.post(destination.strip(), files={"file": file})
-                if response.status_code == 200:
-                    self.runtime_env.log_event(f"File {file_path} uploaded to {destination} successfully.")
-                else:
-                    raise ConnectionError(f"Failed to upload file to {destination}: {response.status_code}")
-        except ValueError:
-            raise ValueError("Invalid syntax for upload command. Use: upload <file> to <destination>")
+        # Example stub for filtering
+        self.runtime_env.log_event("Filter command invoked (stubbed).")
 
-    def download_file(self, args: str):
+    def transform_data(self, args: str):
         """
-        Downloads a file from a URL to a specified local path.
+        Transforms data using a specified function (stubbed for now).
         """
-        try:
-            url, file_path = args.split(" to ", 1)
-            response = requests.get(url.strip(), stream=True)
-            if response.status_code == 200:
-                with open(file_path.strip(), "wb") as file:
-                    for chunk in response.iter_content(chunk_size=8192):
-                        file.write(chunk)
-                self.runtime_env.log_event(f"File downloaded from {url} to {file_path} successfully.")
-            else:
-                raise ConnectionError(f"Failed to download file from {url}: {response.status_code}")
-        except ValueError:
-            raise ValueError("Invalid syntax for download command. Use: download <url> to <file>")
+        # Example stub for transformation
+        self.runtime_env.log_event("Transform command invoked (stubbed).")
+
+    def sort_data(self, args: str):
+        """
+        Sorts data based on a specified key (stubbed for now).
+        """
+        # Example stub for sorting
+        self.runtime_env.log_event("Sort command invoked (stubbed).")
+
+    def aggregate_data(self, args: str):
+        """
+        Aggregates data using a specified function (stubbed for now).
+        """
+        # Example stub for aggregation
+        self.runtime_env.log_event("Aggregate command invoked (stubbed).")
 
     def read_file(self, args: str):
         """
