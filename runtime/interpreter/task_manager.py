@@ -14,17 +14,22 @@ class TaskState(Enum):
     FAILED = "failed"
 
 class TaskManager:
-    def __init__(self, max_threads=10):
+    def __init__(self, runtime_env, max_threads=10):
+        self.runtime_env = runtime_env  # Reference to RuntimeEnvironment for task definitions
         self.scheduled_tasks = Queue()
         self.executor = ThreadPoolExecutor(max_threads)
         self.task_states = {}  # Tracks the state of tasks
 
-    def schedule_task(self, task, run_at: float):
+    def schedule_task(self, task_name, run_at: float):
         """
-        Schedules a task (callable) to run at a specific timestamp (run_at).
+        Schedules a task (by name) to run at a specific timestamp (run_at).
         """
-        self.scheduled_tasks.put((task, run_at))
-        self.task_states[task] = TaskState.PENDING
+        task_definition = self.runtime_env.get_task(task_name)
+        if not task_definition:
+            raise ValueError(f"Task '{task_name}' is not defined.")
+        
+        self.scheduled_tasks.put((task_definition, run_at))
+        self.task_states[task_name] = TaskState.PENDING
 
     def run_scheduled_tasks(self):
         """
@@ -46,13 +51,17 @@ class TaskManager:
         for task in tasks_to_run:
             self.executor.submit(self._safe_task_wrapper, task)
 
-    def run_parallel_tasks(self, tasks: list):
+    def run_parallel_tasks(self, task_names: list):
         """
-        Runs a list of callables in parallel using a thread pool.
+        Runs a list of task names in parallel using a thread pool.
         """
-        for task in tasks:
-            self.task_states[task] = TaskState.PENDING
-            self.executor.submit(self._safe_task_wrapper, task)
+        for task_name in task_names:
+            task_definition = self.runtime_env.get_task(task_name)
+            if not task_definition:
+                raise ValueError(f"Task '{task_name}' is not defined.")
+
+            self.task_states[task_name] = TaskState.PENDING
+            self.executor.submit(self._safe_task_wrapper, task_definition)
 
     def _safe_task_wrapper(self, task):
         """
@@ -66,11 +75,11 @@ class TaskManager:
             self.task_states[task] = TaskState.FAILED
             print(f"Task failed with error: {e}")
 
-    def get_task_state(self, task):
+    def get_task_state(self, task_name):
         """
         Returns the current state of a task.
         """
-        return self.task_states.get(task, None)
+        return self.task_states.get(task_name, None)
 
     # Future Feature: Scheduling tasks based on global conditions or flags
     # Intend to support tasks that trigger when specific conditions are met.
