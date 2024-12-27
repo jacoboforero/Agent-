@@ -4,6 +4,7 @@
 import os
 import requests
 import subprocess
+import shutil
 from datetime import datetime
 from runtime_environment import RuntimeEnvironment
 
@@ -25,6 +26,9 @@ class CommandHandlers:
             "download": self.download_file,
             "alert": self.alert_message,
             "current_time": self.get_current_time,
+            "compress": self.compress_file,
+            "extract": self.extract_file,
+            "list": self.list_files,
             # Add more commands here as needed
         }
 
@@ -175,6 +179,71 @@ class CommandHandlers:
             self.runtime_env.log_event(f"File uploaded to {endpoint}")
         else:
             raise ConnectionError(f"Failed to upload file to endpoint: {endpoint} (status code: {response.status_code})")
+        
+    def download_file(self, args: str):
+        """
+        Downloads a file from a specified URL.
+        """
+        url, destination = args.split(" to ", 1)
+        response = requests.get(url.strip())
+
+        if response.status_code == 200:
+            with open(destination.strip(), "wb") as file:
+                file.write(response.content)
+            self.runtime_env.log_event(f"File downloaded from {url} to {destination}")
+        else:
+            raise ConnectionError(f"Failed to download file from URL: {url} (status code: {response.status_code})")
+        
+    def compress_file(self, args: str):
+        """
+        Compresses a file or directory into a ZIP archive.
+        """
+        try:
+            source, destination = args.split(" to ", 1)
+            source = source.strip()
+            destination = destination.strip()
+
+            if not os.path.exists(source):
+                raise FileNotFoundError(f"Source path {source} does not exist.")
+
+            shutil.make_archive(destination, "zip", source)
+            self.runtime_env.log_event(f"Compressed {source} to {destination}.zip")
+            print(f"Successfully compressed {source} to {destination}.zip")
+        except Exception as e:
+            print(f"Error during compression: {e}")
+            self.runtime_env.log_event(f"Compression failed: {e}")
+
+    def extract_file(self, args: str):
+        """
+        Extracts a ZIP archive into a specified directory.
+        """
+        try:
+            source, destination = args.split(" to ", 1)
+            source = source.strip()
+            destination = destination.strip()
+
+            if not os.path.exists(source):
+                raise FileNotFoundError(f"Source path {source} does not exist.")
+
+            shutil.unpack_archive(source, destination)
+            self.runtime_env.log_event(f"Extracted {source} to {destination}")
+            print(f"Successfully extracted {source} to {destination}")
+        except Exception as e:
+            print(f"Error during extraction: {e}")
+            self.runtime_env.log_event(f"Extraction failed: {e}")
+
+    def list_files(self, args: str):
+        """
+        Lists files in a specified directory.
+        """
+        directory = args.strip()
+        if not os.path.exists(directory):
+            raise FileNotFoundError(f"Directory not found: {directory}")
+
+        files = os.listdir(directory)
+        self.runtime_env.variables["last_file_list"] = files
+        self.runtime_env.log_event(f"Listed files in directory: {directory}")
+        
 
 
     def execute_task(self, args: str):
