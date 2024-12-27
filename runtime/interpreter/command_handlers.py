@@ -150,6 +150,18 @@ class CommandHandlers:
             self.runtime_env.log_event(f"API query successful: {api_url}")
         else:
             raise ConnectionError(f"API query failed: {api_url} (status code: {response.status_code})")
+        
+    def send_data(self, args: str):
+        """
+        Sends data to a specified endpoint. In the future will offer option to send in different formats (e.g. JSON).
+        """
+        data, endpoint = args.split(" to ", 1)
+        response = requests.post(endpoint.strip(), data=data)
+
+        if response.status_code == 200:
+            self.runtime_env.log_event(f"Data sent to {endpoint}")
+        else:
+            raise ConnectionError(f"Failed to send data to endpoint: {endpoint} (status code: {response.status_code})")
 
 
     def execute_task(self, args: str):
