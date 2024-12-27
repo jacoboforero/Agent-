@@ -162,6 +162,19 @@ class CommandHandlers:
             self.runtime_env.log_event(f"Data sent to {endpoint}")
         else:
             raise ConnectionError(f"Failed to send data to endpoint: {endpoint} (status code: {response.status_code})")
+        
+    def upload_file(self, args: str):
+        """
+        Uploads a file to a specified endpoint.
+        """
+        file_path, endpoint = args.split(" to ", 1)
+        with open(file_path.strip(), "rb") as file:
+            response = requests.post(endpoint.strip(), files={"file": file})
+
+        if response.status_code == 200:
+            self.runtime_env.log_event(f"File uploaded to {endpoint}")
+        else:
+            raise ConnectionError(f"Failed to upload file to endpoint: {endpoint} (status code: {response.status_code})")
 
 
     def execute_task(self, args: str):
