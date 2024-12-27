@@ -6,7 +6,8 @@ import requests
 import subprocess
 import shutil
 from datetime import datetime
-from runtime_environment import RuntimeEnvironment
+from runtime.interpreter.runtime_environment import RuntimeEnvironment
+
 
 class CommandHandlers:
     def __init__(self, runtime_env: RuntimeEnvironment):
