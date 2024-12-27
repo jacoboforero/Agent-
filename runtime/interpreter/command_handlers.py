@@ -25,10 +25,6 @@ class CommandHandlers:
             "download": self.download_file,
             "alert": self.alert_message,
             "current_time": self.get_current_time,
-            "filter": self.filter_data,
-            "transform": self.transform_data,
-            "sort": self.sort_data,
-            "aggregate": self.aggregate_data,
             # Add more commands here as needed
         }
 
@@ -62,34 +58,6 @@ class CommandHandlers:
         """
         current_time = datetime.now().isoformat()
         self.runtime_env.log_event(f"Current time: {current_time}")
-
-    def filter_data(self, args: str):
-        """
-        Filters data based on a condition (stubbed for now).
-        """
-        # Example stub for filtering
-        self.runtime_env.log_event("Filter command invoked (stubbed).")
-
-    def transform_data(self, args: str):
-        """
-        Transforms data using a specified function (stubbed for now).
-        """
-        # Example stub for transformation
-        self.runtime_env.log_event("Transform command invoked (stubbed).")
-
-    def sort_data(self, args: str):
-        """
-        Sorts data based on a specified key (stubbed for now).
-        """
-        # Example stub for sorting
-        self.runtime_env.log_event("Sort command invoked (stubbed).")
-
-    def aggregate_data(self, args: str):
-        """
-        Aggregates data using a specified function (stubbed for now).
-        """
-        # Example stub for aggregation
-        self.runtime_env.log_event("Aggregate command invoked (stubbed).")
 
     def read_file(self, args: str):
         """
@@ -169,6 +137,20 @@ class CommandHandlers:
             self.runtime_env.log_event(f"Fetched data from {url}")
         else:
             raise ConnectionError(f"Failed to fetch URL: {url} (status code: {response.status_code})")
+        
+    def query_api(self, args: str):
+        """
+        Queries an API and stores the result in the runtime environment.
+        """
+        api_url = args.strip()
+        response = requests.get(api_url)
+
+        if response.status_code == 200:
+            self.runtime_env.variables["last_API_query"] = response.json()
+            self.runtime_env.log_event(f"API query successful: {api_url}")
+        else:
+            raise ConnectionError(f"API query failed: {api_url} (status code: {response.status_code})")
+
 
     def execute_task(self, args: str):
         """
